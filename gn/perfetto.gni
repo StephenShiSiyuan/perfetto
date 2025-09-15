@@ -272,9 +272,17 @@ declare_args() {
   # and the Android flag "use_rt_mutex" is used instead (perfetto_flags.aconfig)
   # This is disabled in chromium, because the BPF-sandbox allows PI-futex only
   # when a field-trial is enabled, which is incompatible with a build time flag.
-  enable_perfetto_rt_mutex =
-      !is_wasm && (perfetto_build_standalone || is_perfetto_build_generator) &&
-      !build_with_chromium
+  perfetto_mutex_impl = 0
+  if (!is_wasm && (perfetto_build_standalone || is_perfetto_build_generator) &&
+      !build_with_chromium) {
+    if (is_android) {
+      perfetto_mutex_impl = 2
+    } else if (is_linux || is_mac || is_qnx) {
+      perfetto_mutex_impl = 1
+    } else {
+      perfetto_mutex_impl = 0
+    }
+  }
 }
 
 declare_args() {
