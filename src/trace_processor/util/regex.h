@@ -116,8 +116,8 @@ class Regex {
       }
     }
 #else
-    base::ignore_result(s);
-    PERFETTO_FATAL("Windows regex is not supported.");
+    if (s)
+      PERFETTO_FATAL("Windows regex is not supported.");
 #endif
   }
 
