@@ -267,20 +267,24 @@ declare_args() {
       perfetto_build_standalone && !is_perfetto_build_generator &&
       defined(use_custom_libcxx) && use_custom_libcxx
 
-  # Enables the use of priority-inheritance mutexes via PTHREAD_PRIO_INHERIT.
+  # Selects the RT Mutex mode.
+  # 0 = std::mutex:    Standard C++ mutex.
+  # 1 = RtPosixMutex:  Priority-inheritance mutex via PTHREAD_PRIO_INHERIT.
+  # 2 = RtFutex:       A wrapper around PI Futexes.
+  #
   # Note that on Android platform (non-standalone) builds this flag is ignored
-  # and the Android flag "use_rt_mutex" is used instead (perfetto_flags.aconfig)
+  # and Android flags "use_rt_mutex", "use_rt_futex" are used instead (perfetto_flags.aconfig)
   # This is disabled in chromium, because the BPF-sandbox allows PI-futex only
   # when a field-trial is enabled, which is incompatible with a build time flag.
-  perfetto_mutex_impl = 0
+  perfetto_rt_mutex_mode = 0  # Default to 0 (std::mutex).
   if (!is_wasm && (perfetto_build_standalone || is_perfetto_build_generator) &&
       !build_with_chromium) {
     if (is_android) {
-      perfetto_mutex_impl = 2
+      perfetto_rt_mutex_mode = 2  # Use RtFutex
     } else if (is_linux || is_mac || is_qnx) {
-      perfetto_mutex_impl = 1
+      perfetto_rt_mutex_mode = 1  # Use RtPosixMutex
     } else {
-      perfetto_mutex_impl = 0
+      perfetto_rt_mutex_mode = 0  # Use std::mutex (fallback)
     }
   }
 }
