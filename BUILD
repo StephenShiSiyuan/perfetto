@@ -407,6 +407,7 @@ perfetto_cc_library(
         ":src_trace_processor_types_types",
         ":src_trace_processor_util_build_id",
         ":src_trace_processor_util_bump_allocator",
+        ":src_trace_processor_util_clock",
         ":src_trace_processor_util_descriptors",
         ":src_trace_processor_util_elf_elf",
         ":src_trace_processor_util_glob",
@@ -1823,8 +1824,6 @@ perfetto_filegroup(
         "src/trace_processor/importers/common/chunked_trace_reader.h",
         "src/trace_processor/importers/common/clock_converter.cc",
         "src/trace_processor/importers/common/clock_converter.h",
-        "src/trace_processor/importers/common/clock_tracker.cc",
-        "src/trace_processor/importers/common/clock_tracker.h",
         "src/trace_processor/importers/common/cpu_tracker.cc",
         "src/trace_processor/importers/common/cpu_tracker.h",
         "src/trace_processor/importers/common/create_mapping_params.h",
@@ -3672,6 +3671,15 @@ perfetto_filegroup(
     srcs = [
         "src/trace_processor/util/bump_allocator.cc",
         "src/trace_processor/util/bump_allocator.h",
+    ],
+)
+
+# GN target: //src/trace_processor/util:clock
+perfetto_filegroup(
+    name = "src_trace_processor_util_clock",
+    srcs = [
+        "src/trace_processor/util/clock_tracker.cc",
+        "src/trace_processor/util/clock_tracker.h",
     ],
 )
 
@@ -7427,6 +7435,7 @@ perfetto_cc_library(
         ":src_trace_processor_types_types",
         ":src_trace_processor_util_build_id",
         ":src_trace_processor_util_bump_allocator",
+        ":src_trace_processor_util_clock",
         ":src_trace_processor_util_descriptors",
         ":src_trace_processor_util_elf_elf",
         ":src_trace_processor_util_glob",
@@ -7637,6 +7646,7 @@ perfetto_cc_binary(
         ":src_trace_processor_types_types",
         ":src_trace_processor_util_build_id",
         ":src_trace_processor_util_bump_allocator",
+        ":src_trace_processor_util_clock",
         ":src_trace_processor_util_descriptors",
         ":src_trace_processor_util_elf_elf",
         ":src_trace_processor_util_glob",
@@ -7833,6 +7843,7 @@ perfetto_cc_binary(
         ":src_trace_processor_types_types",
         ":src_trace_processor_util_build_id",
         ":src_trace_processor_util_bump_allocator",
+        ":src_trace_processor_util_clock",
         ":src_trace_processor_util_descriptors",
         ":src_trace_processor_util_elf_elf",
         ":src_trace_processor_util_glob",

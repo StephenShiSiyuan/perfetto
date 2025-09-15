@@ -15,7 +15,7 @@
  */
 
 #include "src/trace_processor/importers/common/clock_converter.h"
-#include "src/trace_processor/importers/common/clock_tracker.h"
+#include "src/trace_processor/util/clock_tracker.h"
 
 #include <random>
 

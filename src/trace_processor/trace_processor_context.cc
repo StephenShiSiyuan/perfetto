@@ -26,7 +26,6 @@
 #include "src/trace_processor/forwarding_trace_parser.h"
 #include "src/trace_processor/importers/common/args_translation_table.h"
 #include "src/trace_processor/importers/common/clock_converter.h"
-#include "src/trace_processor/importers/common/clock_tracker.h"
 #include "src/trace_processor/importers/common/cpu_tracker.h"
 #include "src/trace_processor/importers/common/event_tracker.h"
 #include "src/trace_processor/importers/common/flow_tracker.h"
@@ -48,6 +47,7 @@
 #include "src/trace_processor/storage/trace_storage.h"
 #include "src/trace_processor/trace_reader_registry.h"
 #include "src/trace_processor/types/trace_processor_context_ptr.h"
+#include "src/trace_processor/util/clock_tracker.h"
 
 namespace perfetto::trace_processor {
 namespace {
@@ -80,7 +80,10 @@ void InitPerMachineState(TraceProcessorContext* context, uint32_t machine_id) {
   context->symbol_tracker = Ptr<SymbolTracker>::MakeRoot(context);
   context->machine_tracker = Ptr<MachineTracker>::MakeRoot(context, machine_id);
   context->process_tracker = Ptr<ProcessTracker>::MakeRoot(context);
-  context->clock_tracker = Ptr<ClockTracker>::MakeRoot(context);
+  context->clock_tracker_companion =
+      Ptr<ClockSynchronizerListenerImpl>::MakeRoot(context);
+  context->clock_tracker =
+      Ptr<ClockTracker>::MakeRoot(context->clock_tracker_companion.get());
   context->mapping_tracker = Ptr<MappingTracker>::MakeRoot(context);
   context->cpu_tracker = Ptr<CpuTracker>::MakeRoot(context);
   context->stack_profile_tracker = Ptr<StackProfileTracker>::MakeRoot(context);

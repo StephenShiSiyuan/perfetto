@@ -2745,6 +2745,7 @@ cc_test {
         ":perfetto_src_trace_processor_types_types",
         ":perfetto_src_trace_processor_util_build_id",
         ":perfetto_src_trace_processor_util_bump_allocator",
+        ":perfetto_src_trace_processor_util_clock",
         ":perfetto_src_trace_processor_util_descriptors",
         ":perfetto_src_trace_processor_util_elf_elf",
         ":perfetto_src_trace_processor_util_glob",
@@ -14001,7 +14002,6 @@ filegroup {
         "src/trace_processor/importers/common/args_tracker.cc",
         "src/trace_processor/importers/common/args_translation_table.cc",
         "src/trace_processor/importers/common/clock_converter.cc",
-        "src/trace_processor/importers/common/clock_tracker.cc",
         "src/trace_processor/importers/common/cpu_tracker.cc",
         "src/trace_processor/importers/common/deobfuscation_mapping_table.cc",
         "src/trace_processor/importers/common/event_tracker.cc",
@@ -14046,7 +14046,6 @@ filegroup {
         "src/trace_processor/importers/common/address_range_unittest.cc",
         "src/trace_processor/importers/common/args_translation_table_unittest.cc",
         "src/trace_processor/importers/common/clock_converter_unittest.cc",
-        "src/trace_processor/importers/common/clock_tracker_unittest.cc",
         "src/trace_processor/importers/common/deobfuscation_mapping_table_unittest.cc",
         "src/trace_processor/importers/common/event_tracker_unittest.cc",
         "src/trace_processor/importers/common/flow_tracker_unittest.cc",
@@ -15543,6 +15542,14 @@ filegroup {
     ],
 }
 
+// GN: //src/trace_processor/util:clock
+filegroup {
+    name: "perfetto_src_trace_processor_util_clock",
+    srcs: [
+        "src/trace_processor/util/clock_tracker.cc",
+    ],
+}
+
 // GN: //src/trace_processor/util:descriptors
 filegroup {
     name: "perfetto_src_trace_processor_util_descriptors",
@@ -15685,6 +15692,7 @@ filegroup {
     name: "perfetto_src_trace_processor_util_unittests",
     srcs: [
         "src/trace_processor/util/bump_allocator_unittest.cc",
+        "src/trace_processor/util/clock_tracker_unittest.cc",
         "src/trace_processor/util/debug_annotation_parser_unittest.cc",
         "src/trace_processor/util/glob_unittest.cc",
         "src/trace_processor/util/gzip_utils_unittest.cc",
@@ -17500,6 +17508,7 @@ cc_test {
         ":perfetto_src_trace_processor_unittests",
         ":perfetto_src_trace_processor_util_build_id",
         ":perfetto_src_trace_processor_util_bump_allocator",
+        ":perfetto_src_trace_processor_util_clock",
         ":perfetto_src_trace_processor_util_descriptors",
         ":perfetto_src_trace_processor_util_elf_elf",
         ":perfetto_src_trace_processor_util_glob",
@@ -18319,6 +18328,7 @@ cc_library_static {
         ":perfetto_src_trace_processor_types_types",
         ":perfetto_src_trace_processor_util_build_id",
         ":perfetto_src_trace_processor_util_bump_allocator",
+        ":perfetto_src_trace_processor_util_clock",
         ":perfetto_src_trace_processor_util_descriptors",
         ":perfetto_src_trace_processor_util_elf_elf",
         ":perfetto_src_trace_processor_util_glob",
@@ -18652,6 +18662,7 @@ cc_binary {
         ":perfetto_src_trace_processor_types_types",
         ":perfetto_src_trace_processor_util_build_id",
         ":perfetto_src_trace_processor_util_bump_allocator",
+        ":perfetto_src_trace_processor_util_clock",
         ":perfetto_src_trace_processor_util_descriptors",
         ":perfetto_src_trace_processor_util_elf_elf",
         ":perfetto_src_trace_processor_util_glob",
@@ -19096,6 +19107,7 @@ cc_binary_host {
         ":perfetto_src_trace_processor_types_types",
         ":perfetto_src_trace_processor_util_build_id",
         ":perfetto_src_trace_processor_util_bump_allocator",
+        ":perfetto_src_trace_processor_util_clock",
         ":perfetto_src_trace_processor_util_descriptors",
         ":perfetto_src_trace_processor_util_elf_elf",
         ":perfetto_src_trace_processor_util_glob",

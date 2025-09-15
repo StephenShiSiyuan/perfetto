@@ -37,7 +37,6 @@
 #include "perfetto/trace_processor/trace_blob_view.h"
 #include "protos/perfetto/trace/interned_data/interned_data.pbzero.h"
 #include "protos/perfetto/trace/track_event/debug_annotation.pbzero.h"
-#include "src/trace_processor/importers/common/clock_tracker.h"
 #include "src/trace_processor/importers/common/legacy_v8_cpu_profile_tracker.h"
 #include "src/trace_processor/importers/common/metadata_tracker.h"
 #include "src/trace_processor/importers/common/parser_types.h"
@@ -51,6 +50,7 @@
 #include "src/trace_processor/storage/stats.h"
 #include "src/trace_processor/storage/trace_storage.h"
 #include "src/trace_processor/types/variadic.h"
+#include "src/trace_processor/util/clock_tracker.h"
 #include "src/trace_processor/util/json_utils.h"
 
 #include "protos/perfetto/common/builtin_clock.pbzero.h"

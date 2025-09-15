@@ -29,7 +29,6 @@
 #include "src/trace_processor/importers/common/args_tracker.h"
 #include "src/trace_processor/importers/common/args_translation_table.h"
 #include "src/trace_processor/importers/common/chunked_trace_reader.h"
-#include "src/trace_processor/importers/common/clock_tracker.h"
 #include "src/trace_processor/importers/common/cpu_tracker.h"
 #include "src/trace_processor/importers/common/event_tracker.h"
 #include "src/trace_processor/importers/common/flow_tracker.h"
@@ -55,6 +54,7 @@
 #include "src/trace_processor/storage/trace_storage.h"
 #include "src/trace_processor/tables/metadata_tables_py.h"
 #include "src/trace_processor/types/variadic.h"
+#include "src/trace_processor/util/clock_tracker.h"
 #include "src/trace_processor/util/descriptors.h"
 #include "test/gtest_and_gmock.h"
 
@@ -190,7 +190,10 @@ class FuchsiaTraceParserTest : public ::testing::Test {
     context_.slice_tracker = std::make_unique<SliceTracker>(&context_);
     context_.slice_translation_table =
         std::make_unique<SliceTranslationTable>(storage_);
-    context_.clock_tracker = std::make_unique<ClockTracker>(&context_);
+    context_.clock_tracker_companion =
+        std::make_unique<ClockSynchronizerListenerImpl>(&context_);
+    context_.clock_tracker =
+        std::make_unique<ClockTracker>(context_.clock_tracker_companion.get());
     clock_ = context_.clock_tracker.get();
     context_.flow_tracker = std::make_unique<FlowTracker>(&context_);
     context_.sorter = std::make_unique<TraceSorter>(

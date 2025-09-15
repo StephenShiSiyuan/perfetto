@@ -40,7 +40,6 @@
 #include "protos/perfetto/common/builtin_clock.pbzero.h"
 #include "protos/perfetto/trace/clock_snapshot.pbzero.h"
 #include "protos/third_party/simpleperf/record_file.pbzero.h"
-#include "src/trace_processor/importers/common/clock_tracker.h"
 #include "src/trace_processor/importers/common/process_tracker.h"
 #include "src/trace_processor/importers/common/slice_tracker.h"
 #include "src/trace_processor/importers/perf/attrs_section_reader.h"
@@ -66,6 +65,7 @@
 #include "src/trace_processor/storage/stats.h"
 #include "src/trace_processor/types/variadic.h"
 #include "src/trace_processor/util/build_id.h"
+#include "src/trace_processor/util/clock_tracker.h"
 #include "src/trace_processor/util/trace_blob_view_reader.h"
 
 namespace perfetto::trace_processor::perf_importer {
@@ -250,8 +250,8 @@ PerfDataTokenizer::ParseAttrs() {
 
   ASSIGN_OR_RETURN(perf_session_, builder.Build());
   if (perf_session_->HasPerfClock()) {
-    context_->clock_tracker->SetTraceTimeClock(
-        protos::pbzero::BUILTIN_CLOCK_PERF);
+    RETURN_IF_ERROR(context_->clock_tracker->SetTraceTimeClock(
+        protos::pbzero::BUILTIN_CLOCK_PERF));
   }
   parsing_state_ = ParsingState::kSeekRecords;
   return ParsingResult::kSuccess;

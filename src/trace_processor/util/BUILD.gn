@@ -64,6 +64,17 @@ source_set("build_id") {
   ]
 }
 
+source_set("clock") {
+  sources = [
+    "clock_tracker.cc",
+    "clock_tracker.h",
+  ]
+  deps = [
+    "../../../gn:default_deps",
+    "../../../include/perfetto/ext/base:base",
+  ]
+}
+
 source_set("profiler_util") {
   sources = [
     "profiler_util.cc",
@@ -319,6 +330,7 @@ source_set("winscope_proto_mapping") {
 source_set("unittests") {
   sources = [
     "bump_allocator_unittest.cc",
+    "clock_tracker_unittest.cc",
     "debug_annotation_parser_unittest.cc",
     "glob_unittest.cc",
     "json_parser_unittest.cc",

@@ -29,12 +29,12 @@
 #include "src/trace_processor/importers/android_bugreport/android_bugreport_reader.h"
 #include "src/trace_processor/importers/android_bugreport/android_log_event.h"
 #include "src/trace_processor/importers/android_bugreport/android_log_event_parser.h"
-#include "src/trace_processor/importers/common/clock_tracker.h"
 #include "src/trace_processor/importers/common/metadata_tracker.h"
 #include "src/trace_processor/sorter/trace_sorter.h"
 #include "src/trace_processor/storage/stats.h"
 #include "src/trace_processor/storage/trace_storage.h"
 #include "src/trace_processor/types/trace_processor_context.h"
+#include "src/trace_processor/util/clock_tracker.h"
 #include "test/gtest_and_gmock.h"
 
 #include "protos/perfetto/common/android_log_constants.pbzero.h"
@@ -63,7 +63,11 @@ class AndroidLogReaderTest : public ::testing::Test {
  public:
   AndroidLogReaderTest() {
     context_.storage = std::make_unique<TraceStorage>();
-    context_.clock_tracker = std::make_unique<ClockTracker>(&context_);
+    context_.clock_tracker_companion =
+        std::make_unique<ClockSynchronizerListenerImpl>(&context_);
+    ;
+    context_.clock_tracker =
+        std::make_unique<ClockTracker>(context_.clock_tracker_companion.get());
     context_.metadata_tracker =
         std::make_unique<MetadataTracker>(context_.storage.get());
     context_.clock_tracker->SetTraceTimeClock(

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "src/trace_processor/importers/common/clock_tracker.h"
+#include "src/trace_processor/util/clock_tracker.h"
 
 #include <cstdint>
 #include <memory>
@@ -46,7 +46,8 @@ class ClockTrackerTest : public ::testing::Test {
 
   // using ClockId = uint64_t;
   TraceProcessorContext context_;
-  ClockTracker ct_{&context_};
+  ClockSynchronizerListenerImpl ct_companion_{&context_};
+  ClockTracker ct_{&ct_companion_};
   base::StatusOr<int64_t> Convert(ClockTracker::ClockId src_clock_id,
                                   int64_t src_timestamp,
                                   ClockTracker::ClockId target_clock_id) {

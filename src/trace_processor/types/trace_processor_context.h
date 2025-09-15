@@ -31,9 +31,11 @@
 
 namespace perfetto::trace_processor {
 
+class ClockSynchronizerListenerImpl;
 class ArgsTranslationTable;
 class ClockConverter;
-class ClockTracker;
+template <typename T>
+class ClockSynchronizer;
 class CpuTracker;
 class DescriptorPool;
 class EventTracker;
@@ -178,7 +180,9 @@ class TraceProcessorContext {
 
   PerMachinePtr<SymbolTracker> symbol_tracker;
   PerMachinePtr<ProcessTracker> process_tracker;
-  PerMachinePtr<ClockTracker> clock_tracker;
+  PerMachinePtr<ClockSynchronizerListenerImpl> clock_tracker_companion;
+  PerMachinePtr<ClockSynchronizer<ClockSynchronizerListenerImpl> >
+      clock_tracker;
   PerMachinePtr<MappingTracker> mapping_tracker;
   PerMachinePtr<MachineTracker> machine_tracker;
   PerMachinePtr<CpuTracker> cpu_tracker;
